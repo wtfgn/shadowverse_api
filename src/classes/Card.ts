@@ -1,4 +1,9 @@
-import { RawCard } from '../types';
+import type { RawCard } from '../types';
+import type { Query } from '../utils/validators/query_validator';
+import {
+  isValidClanCode,
+  isValidCharTypeCode
+} from '../utils/validators/query_validator';
 
 export class Card {
   card_id: number;
@@ -59,12 +64,48 @@ export class Card {
     this.resurgent_card = rawCard.resurgent_card;
   }
 
-  static transformCard(rawCard: RawCard | undefined): Card | undefined {
-    return rawCard ? new Card(rawCard) : undefined;
+  static transformCard(rawCard: RawCard): Card {
+    return new Card(rawCard);
   }
 
-  static transformCards(rawCards: RawCard[] | undefined): (Card | undefined)[] {
-    return rawCards?.map(rawCard => this.transformCard(rawCard)) || [];
+  static transformCards(rawCards: RawCard[]): Card[] {
+    return rawCards.map(rawCard => new Card(rawCard));
+  }
+
+  static selectByCardId(cards: Card[], cardId: number): Card | undefined {
+    return cards.find(card => card.card_id === cardId);
+  }
+
+  static selectByClan(cards: Card[], clanCode: string | string[]): Card[] {
+    if (Array.isArray(clanCode)) {
+      const clanCodes = clanCode.map(Number); // 
+      return cards.filter(card => clanCodes.includes(card.clan));
+    }
+    return cards.filter(card => card.clan === Number(clanCode));
+  }
+
+  static selectByCharType(cards: Card[], charTypeCode: string | string[]): Card[] {
+    if (Array.isArray(charTypeCode)) {
+      const charTypeCodes = charTypeCode.map(Number);
+      return cards.filter(card => charTypeCodes.includes(card.char_type));
+    }
+    return cards.filter(card => card.char_type === Number(charTypeCode));
+  }
+
+  static filterByQuery(cards: Card[], query: Query): Card[] {
+    let filteredCards = cards;
+    const {
+      clan: clanCode,
+      char_type: charTypeCode
+    } = query;
+
+    if (clanCode !== undefined && isValidClanCode(clanCode)) {
+      filteredCards = Card.selectByClan(filteredCards, clanCode);
+    }
+    if (charTypeCode !== undefined && isValidCharTypeCode(charTypeCode)) {
+      filteredCards = Card.selectByCharType(filteredCards, charTypeCode);
+    }
+    return filteredCards;
   }
 
 }

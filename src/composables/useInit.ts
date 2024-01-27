@@ -1,6 +1,4 @@
-import { useCache } from "../composables/useCache";
-
-const { updateCache } = useCache();
+import { updateCache } from "../cache";
 
 export const useInit = async () => {
   await updateCache()

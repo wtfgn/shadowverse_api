@@ -52,3 +52,36 @@ export interface RawCard {
 }
 
 export type LanguageCode = "en" | "ja" | "zh-tw";
+export interface Clan {
+  0: "Forestcraft",
+  1: "Swordcraft",
+  2: "Runecraft",
+  3: "Dragoncraft",
+  4: "Shadowcraft",
+  5: "Bloodcraft",
+  6: "Havencraft",
+  7: "Portalcraft",
+}
+export interface CharType {
+  1: "Follower",
+  2: "Amulet",
+  3: "Amulet (Countdown)",
+  4: "Spell",
+}
+
+export interface TribeName {
+  1: "-";
+  2: "Officer";
+  3: "Commander";
+}
+
+export type Cost = number;
+export type Atk = number;
+export type Life = number;
+
+export interface Rarity {
+  1: "Bronze",
+  2: "Silver",
+  3: "Gold",
+  4: "Legendary",
+}
