@@ -1,10 +1,7 @@
 # Shadowverse API
 
-This API is built based on the official API provided by Shadowverse with additional functionalities. 
+This API is built based on the official API provided by Shadowverse with additional functionalities and some improvements.
 
-- Type some Markdown on the left
-- See HTML in the right
-- ✨Magic ✨
 
 ## Features
 
@@ -30,7 +27,7 @@ This API is built based on the official API provided by Shadowverse with additio
 | `card_set_id` |`number`| The extention that the card belongs to. <br> `10000` = "Basic" <br> `10001` = "Standard" <br> `10002` = "Darkness Evolved" <br> `10003` = "Rise of Bahamut" <br> `10004` = "Tempest of the Gods" <br>etc...
 |`clan`|`number`|  `0`: "Forestcraft"<br>`1` : "Swordcraft"<br>`2` : "Runecraft"<br>`3` : "Dragoncraft"<br>`4` : "Shadowcraft"<br>`5` : "Bloodcraft"<br>`6` : "Havencraft"<br>`7` : "Portalcraft"
 |`char_type`|`number`|`1`: "Follower"<br>`2`: "Amulet"<br>`3`: "Amulet (Countdown)"<br>`4`: "Spell"<br>
-|`tribe_name`|`number`|Please refer to the table below|
+|`tribe_name`|`number`|The code of the tribe name, please refer to the table below<br>`0` = "-"<br>`1` = "Academic"|
 |`cost`|`number`|The cost of the card|
 |`atk`|`number`|The attack of the card|
 |`life`|`number`|The defence of the card|
@@ -41,7 +38,92 @@ This API is built based on the official API provided by Shadowverse with additio
 |`restricted_count`|`number`|The number of that specific card can be put in a deck,<br> `0` means it is prohibited, `3` means no restrictions|
 |`restricted_count_co_main`|`number`|Same as above, but only applied in specific modes|
 |`restricted_count_co_sub`|`number`|Same as above, but only applied in specific modes|
-|`resurgent_card`|`number`|`0` = not resurgent<br>`1` = resurgent<br>If a card is resurgent, that means the card image is copied from another one, but with new abilities and names, etc...
+|`resurgent_card`|`number`|`0` = not resurgent<br>`1` = resurgent<br>If a card is resurgent, that means the card image is copied from another one, but with new abilities and names, etc...|
+
+Because the tribe names are only shown in text in the official API, so I made some modifications for consistency. Also, I am not really good at Japaneses, so the translations of tribe names is not fully completed.
+```JSON
+{
+  "en": {
+    0: "-",
+    1: "Academic",
+    2: "All",
+    3: "Armed",
+    4: "Artifact",
+    5: "Chess",
+    6: "Cmdr./Acad.",
+    7: "Cmdr./Cdmn.",
+    8: "Cmdr./Fes.",
+    9: "Cmdr./Hero.",
+    10: "Cmdr./Lvn.",
+    11: "Cmdr./Mach.",
+    12: "Cmdr./Nat.",
+    13: "Commander",
+    14: "Condemned",
+    15: "Earth Sigil",
+    16: "Festive",
+    17: "Heroic",
+    18: "Levin",
+    19: "Loot",
+    20: "Mach./Acad.",
+    21: "Mach./Art.",
+    22: "Mach./Cdmn.",
+    23: "Mach./Fes.",
+    24: "Mach./Nat.",
+    25: "Machina",
+    26: "Mys./Acad.",
+    27: "Mysteria",
+    28: "Natura",
+    29: "Ofcr./Acad.",
+    30: "Ofcr./Cdmn.",
+    31: "Ofcr./Fes.",
+    32: "Ofcr./Hero.",
+    33: "Ofcr./Lvn.",
+    34: "Ofcr./Mach.",
+    35: "Ofcr./Nat.",
+    36: "Officer",
+  },
+  "zh-tw": {
+    0: "-",
+    1: "學園",
+    2: "全部",
+    3: "武裝",
+    4: "創造物",
+    5: "西洋棋",
+    6: "指揮官‧學園",
+    7: "指揮官‧八獄",
+    8: "指揮官‧宴樂",
+    9: "指揮官‧英雄",
+    10: "指揮官‧雷維翁",
+    11: "指揮官‧機械",
+    12: "指揮官‧自然",
+    13: "指揮官",
+    14: "八獄",
+    15: "土之印",
+    16: "宴樂",
+    17: "英雄",
+    18: "雷維翁",
+    19: "財寶",
+    20: "機械‧學園",
+    21: "機械‧創造物",
+    22: "機械‧八獄",
+    23: "機械‧宴樂",
+    24: "機械‧自然",
+    25: "機械",
+    26: "馬納歷亞‧學園",
+    27: "馬納歷亞",
+    28: "自然",
+    29: "士兵‧學園",
+    30: "士兵‧八獄",
+    31: "士兵‧宴樂",
+    32: "士兵‧英雄",
+    33: "士兵‧雷維翁",
+    34: "士兵‧機械",
+    35: "士兵‧自然",
+    36: "士兵",
+  },
+  // "ja": {},
+}
+```
 
 Example response:
 ```json
