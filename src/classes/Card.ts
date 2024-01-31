@@ -99,28 +99,12 @@ export class Card {
     return cards.find(card => card.card_id === Number(cardId));
   }
 
-  static selectByCardSetId(cards: Card[], cardSetId: string | string[]): Card[] {
-    if (Array.isArray(cardSetId)) {
-      const cardSetIds = cardSetId.map(Number);
-      return cards.filter(card => cardSetIds.includes(card.card_set_id));
+  static selectByProperty(cards: Card[], property: string | string[], propertyName: keyof Card): Card[] {
+    if (Array.isArray(property)) {
+      const properties = property.map(Number);
+      return cards.filter(card => properties.includes(Number(card[propertyName])));
     }
-    return cards.filter(card => card.card_set_id === Number(cardSetId));
-  }
-
-  static selectByClan(cards: Card[], clanCode: string | string[]): Card[] {
-    if (Array.isArray(clanCode)) {
-      const clanCodes = clanCode.map(Number);
-      return cards.filter(card => clanCodes.includes(card.clan));
-    }
-    return cards.filter(card => card.clan === Number(clanCode));
-  }
-
-  static selectByCharType(cards: Card[], charTypeCode: string | string[]): Card[] {
-    if (Array.isArray(charTypeCode)) {
-      const charTypeCodes = charTypeCode.map(Number);
-      return cards.filter(card => charTypeCodes.includes(card.char_type));
-    }
-    return cards.filter(card => card.char_type === Number(charTypeCode));
+    return cards.filter(card => card[propertyName] === Number(property));
   }
 
   static selectByTribeName(cards: Card[], tribeNameCode: string | string[], languageCode: LanguageCode = "en"): Card[] {
@@ -129,94 +113,6 @@ export class Card {
       return cards.filter(card => tribeNames.includes(card.tribe_name));
     }
     return cards.filter(card => card.tribe_name === TribeName[languageCode][Number(tribeNameCode)]);
-  }
-
-  static selectByCost(cards: Card[], cost: string | string[]): Card[] {
-    if (Array.isArray(cost)) {
-      const costs = cost.map(Number);
-      return cards.filter(card => costs.includes(card.cost));
-    }
-    return cards.filter(card => card.cost === Number(cost));
-  }
-
-  static selectByAtk(cards: Card[], atk: string | string[]): Card[] {
-    if (Array.isArray(atk)) {
-      const atks = atk.map(Number);
-      return cards.filter(card => atks.includes(card.atk));
-    }
-    return cards.filter(card => card.atk === Number(atk));
-  }
-
-  static selectByLife(cards: Card[], life: string | string[]): Card[] {
-    if (Array.isArray(life)) {
-      const lifes = life.map(Number);
-      return cards.filter(card => lifes.includes(card.life));
-    }
-    return cards.filter(card => card.life === Number(life));
-  }
-
-  static selectByRarity(cards: Card[], rarityCode: string | string[]): Card[] {
-    if (Array.isArray(rarityCode)) {
-      const rarities = rarityCode.map(Number);
-      return cards.filter(card => rarities.includes(card.rarity));
-    }
-    return cards.filter(card => card.rarity === Number(rarityCode));
-  }
-
-  static selectByGetRedEther(cards: Card[], getRedEtherNum: string | string[]): Card[] {
-    if (Array.isArray(getRedEtherNum)) {
-      const getRedEthers = getRedEtherNum.map(Number);
-      return cards.filter(card => getRedEthers.includes(card.get_red_ether));
-    }
-    return cards.filter(card => card.get_red_ether === Number(getRedEtherNum));
-  }
-
-  static selectByUseRedEther(cards: Card[], useRedEtherNum: string | string[]): Card[] {
-    if (Array.isArray(useRedEtherNum)) {
-      const useRedEthers = useRedEtherNum.map(Number);
-      return cards.filter(card => useRedEthers.includes(card.use_red_ether));
-    }
-    return cards.filter(card => card.use_red_ether === Number(useRedEtherNum));
-  }
-
-  static selectByFormatType(cards: Card[], formatTypeCode: string | string[]): Card[] {
-    if (Array.isArray(formatTypeCode)) {
-      const formatTypes = formatTypeCode.map(Number);
-      return cards.filter(card => formatTypes.includes(card.format_type));
-    }
-    return cards.filter(card => card.format_type === Number(formatTypeCode));
-  }
-
-  static selectByRestrictedCount(cards: Card[], restrictedCount: string | string[]): Card[] {
-    if (Array.isArray(restrictedCount)) {
-      const restrictedCounts = restrictedCount.map(Number);
-      return cards.filter(card => restrictedCounts.includes(card.restricted_count));
-    }
-    return cards.filter(card => card.restricted_count === Number(restrictedCount));
-  }
-
-  static selectByRestrictedCountCoMain(cards: Card[], restrictedCountCoMain: string | string[]): Card[] {
-    if (Array.isArray(restrictedCountCoMain)) {
-      const restrictedCountCoMains = restrictedCountCoMain.map(Number);
-      return cards.filter(card => restrictedCountCoMains.includes(card.restricted_count_co_main));
-    }
-    return cards.filter(card => card.restricted_count_co_main === Number(restrictedCountCoMain));
-  }
-
-  static selectByRestrictedCountCoSub(cards: Card[], restrictedCountCoSub: string | string[]): Card[] {
-    if (Array.isArray(restrictedCountCoSub)) {
-      const restrictedCountCoSubs = restrictedCountCoSub.map(Number);
-      return cards.filter(card => restrictedCountCoSubs.includes(card.restricted_count_co_sub));
-    }
-    return cards.filter(card => card.restricted_count_co_sub === Number(restrictedCountCoSub));
-  }
-
-  static selectByResurgentCard(cards: Card[], resurgentCardCode: string | string[]): Card[] {
-    if (Array.isArray(resurgentCardCode)) {
-      const resurgentCards = resurgentCardCode.map(Number);
-      return cards.filter(card => resurgentCards.includes(card.resurgent_card));
-    }
-    return cards.filter(card => card.resurgent_card === Number(resurgentCardCode));
   }
 
   static filterByQuery(cards: Card[], query: Query): Card[] {
@@ -241,49 +137,49 @@ export class Card {
     } = query;
 
     if (cardSetId !== undefined && isValidCardSetCode(cardSetId)) {
-      filteredCards = Card.selectByCardSetId(filteredCards, cardSetId);
+      filteredCards = Card.selectByProperty(filteredCards, cardSetId, "card_set_id");
     }
     if (clanCode !== undefined && isValidClanCode(clanCode)) {
-      filteredCards = Card.selectByClan(filteredCards, clanCode);
+      filteredCards = Card.selectByProperty(filteredCards, clanCode, "clan");
     }
     if (charTypeCode !== undefined && isValidCharTypeCode(charTypeCode)) {
-      filteredCards = Card.selectByCharType(filteredCards, charTypeCode);
+      filteredCards = Card.selectByProperty(filteredCards, charTypeCode, "char_type");
     }
     if (tribeNameCode !== undefined && isValidTribeNameCode(tribeNameCode)) {
       filteredCards = Card.selectByTribeName(filteredCards, tribeNameCode, languageCode);
     }
     if (costValue !== undefined && isValidCost(costValue)) {
-      filteredCards = Card.selectByCost(filteredCards, costValue);
+      filteredCards = Card.selectByProperty(filteredCards, costValue, "cost");
     }
     if (atkValue !== undefined && isValidAtk(atkValue)) {
-      filteredCards = Card.selectByAtk(filteredCards, atkValue);
+      filteredCards = Card.selectByProperty(filteredCards, atkValue, "atk");
     }
     if (lifeValue !== undefined && isValidLife(lifeValue)) {
-      filteredCards = Card.selectByLife(filteredCards, lifeValue);
+      filteredCards = Card.selectByProperty(filteredCards, lifeValue, "life");
     }
     if (rarityCode !== undefined && isValidRarity(rarityCode)) {
-      filteredCards = Card.selectByRarity(filteredCards, rarityCode);
+      filteredCards = Card.selectByProperty(filteredCards, rarityCode, "rarity");
     }
     if (getRedEtherNum !== undefined && isValidGetRedEther(getRedEtherNum)) {
-      filteredCards = Card.selectByGetRedEther(filteredCards, getRedEtherNum);
+      filteredCards = Card.selectByProperty(filteredCards, getRedEtherNum, "get_red_ether");
     }
     if (useRedEtherNum !== undefined && isValidUseRedEther(useRedEtherNum)) {
-      filteredCards = Card.selectByUseRedEther(filteredCards, useRedEtherNum);
+      filteredCards = Card.selectByProperty(filteredCards, useRedEtherNum, "use_red_ether");
     }
     if (formatTypeCode !== undefined && isValidFormatType(formatTypeCode)) {
-      filteredCards = Card.selectByFormatType(filteredCards, formatTypeCode);
+      filteredCards = Card.selectByProperty(filteredCards, formatTypeCode, "format_type");
     }
     if (restrictedCount !== undefined && isValidRestrictedCount(restrictedCount)) {
-      filteredCards = Card.selectByRestrictedCount(filteredCards, restrictedCount);
+      filteredCards = Card.selectByProperty(filteredCards, restrictedCount, "restricted_count");
     }
     if (restrictedCountCoMain !== undefined && isValidRestrictedCountCoMain(restrictedCountCoMain)) {
-      filteredCards = Card.selectByRestrictedCountCoMain(filteredCards, restrictedCountCoMain);
+      filteredCards = Card.selectByProperty(filteredCards, restrictedCountCoMain, "restricted_count_co_main");
     }
     if (restrictedCountCoSub !== undefined && isValidRestrictedCountCoSub(restrictedCountCoSub)) {
-      filteredCards = Card.selectByRestrictedCountCoSub(filteredCards, restrictedCountCoSub);
+      filteredCards = Card.selectByProperty(filteredCards, restrictedCountCoSub, "restricted_count_co_sub");
     }
     if (resurgentCardCode !== undefined && isValidResurgentCard(resurgentCardCode)) {
-      filteredCards = Card.selectByResurgentCard(filteredCards, resurgentCardCode);
+      filteredCards = Card.selectByProperty(filteredCards, resurgentCardCode, "resurgent_card");
     }
     
     return filteredCards;
