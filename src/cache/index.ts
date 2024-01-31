@@ -7,9 +7,11 @@ export const myCache = new NodeCache({
 
 export const updateCache = async () => {
   try {
-    myCache.set("cards_en", await useFetchCards("en"));
+    // Order matters here because CV field is alwys empty for en
+    // and we want to use the cached data to fill it in
     myCache.set("cards_ja", await useFetchCards("ja"));
     myCache.set("cards_zh-tw", await useFetchCards("zh-tw"));
+    myCache.set("cards_en", await useFetchCards("en"));
   } catch (error) {
     console.log(error);
   }
