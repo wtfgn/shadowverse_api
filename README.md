@@ -1,3 +1,20 @@
+# Shadowverse API
+
+This API is built based on the official API provided by Shadowverse with additional functionalities. 
+
+- Type some Markdown on the left
+- See HTML in the right
+- ✨Magic ✨
+
+## Features
+
+- Support card searching with query (see below)
+- Automatically discard meaningless and unknown data
+- Support languages like English, Japanese (on progress) and Chinese
+- Cache cards data to facilitate data retrieval
+- The 'CV' field is no longer to be empty if the language is English
+
+
 
 ## API Reference
 
