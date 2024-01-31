@@ -1,7 +1,7 @@
 {
-  "name": "sv-card-searcher-server",
+  "name": "shadowverse_api",
   "version": "1.0.0",
-  "description": "The backend server for the sv-card-searcher",
+  "description": "The shadowver api",
   "main": "index.js",
   "repository": "https://github.com/wtfgn/sv-card-searcher-server.git",
   "author": "wtfgn <exal59@yahoo.com>",
