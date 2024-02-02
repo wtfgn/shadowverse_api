@@ -17,7 +17,7 @@ This API is built based on the official API provided by Shadowverse with additio
 
 #### Get all cards
 
-```http
+```
   GET /api/cards
 ```
 
@@ -251,7 +251,7 @@ Example response:
 ```
 #### Get card
 
-```http
+```
   GET /api/cards/${id}
 ```
 
