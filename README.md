@@ -40,7 +40,6 @@ This API is built based on the official API provided by Shadowverse with additio
 |`restricted_count_co_sub`|`number`|Same as above, but only applied in specific modes|
 |`resurgent_card`|`number`|`0` = not resurgent<br>`1` = resurgent<br>If a card is resurgent, that means the card image is copied from another one, but with new abilities and names, etc...|
 
-Because the tribe names are only shown in text in the official API, so I made some modifications for consistency. Also, I am not really good at Japaneses, so the translations of tribe names is not fully completed.
 ```JSON
 {
   "en": {
