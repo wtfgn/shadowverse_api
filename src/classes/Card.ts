@@ -136,6 +136,9 @@ export class Card {
       resurgent_card: resurgentCardCode,
     } = query;
 
+    // Discard cards with no name
+    filteredCards = filteredCards.filter(card => card.card_name !== null);
+
     if (cardSetId !== undefined && isValidCardSetCode(cardSetId)) {
       filteredCards = Card.selectByProperty(filteredCards, cardSetId, "card_set_id");
     }

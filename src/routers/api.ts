@@ -35,6 +35,11 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
   const { lang: languageCode = "en" } = req.query as Query;
 
   const cachedCards: Card[] | undefined = myCache.get(`cards_${languageCode}`);
+
+  // Get dinstinct tribe names
+  const tribes = cachedCards?.map(card => card.tribe_name).filter((value, index, self) => self.indexOf(value) === index);
+  console.log(tribes);
+
   if (cachedCards) {
     const filteredCards = Card.filterByQuery(cachedCards, req.query as Query);
     console.log(`[server]: Sending ${filteredCards.length} cards from cache`);
