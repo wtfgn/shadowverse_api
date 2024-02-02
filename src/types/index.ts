@@ -54,14 +54,15 @@ export interface RawCard {
 export type LanguageCode = "en" | "ja" | "zh-tw";
 
 export const Clan = {
-  0: "Forestcraft",
-  1: "Swordcraft",
-  2: "Runecraft",
-  3: "Dragoncraft",
-  4: "Shadowcraft",
-  5: "Bloodcraft",
-  6: "Havencraft",
-  7: "Portalcraft",
+  0: "Neutral",
+  1: "Forestcraft",
+  2: "Swordcraft",
+  3: "Runecraft",
+  4: "Dragoncraft",
+  5: "Shadowcraft",
+  6: "Bloodcraft",
+  7: "Havencraft",
+  8: "Portalcraft",
 } as const;
 
 export const CharType = {

@@ -35,7 +35,7 @@ const isNumericCode = (code: string | string[] | undefined): boolean => {
 export const isValidCardSetCode = isNumericCode;
 
 export const isValidClanCode = (clan: string | string[] | undefined): boolean => {
-  return isValidCode(clan, isNumberInRange(0, 7));
+  return isValidCode(clan, isNumberInRange(0, 8));
 }
 
 export const isValidCharTypeCode = (charType: string | string[] | undefined): boolean => {
