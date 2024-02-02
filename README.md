@@ -25,7 +25,7 @@ This API is built based on the official API provided by Shadowverse with additio
 | :-------- | :------- | :------------------------- |
 | `lang` | `string` |`en` = "English",<br>`ja` = "Japanese",<br> `zh-tw` = "Tranditional Chinese"|
 | `card_set_id` |`number`| The extention that the card belongs to. <br> `10000` = "Basic" <br> `10001` = "Standard" <br> `10002` = "Darkness Evolved" <br> `10003` = "Rise of Bahamut" <br> `10004` = "Tempest of the Gods" <br>etc...
-|`clan`|`number`|  `0`: "Forestcraft"<br>`1` : "Swordcraft"<br>`2` : "Runecraft"<br>`3` : "Dragoncraft"<br>`4` : "Shadowcraft"<br>`5` : "Bloodcraft"<br>`6` : "Havencraft"<br>`7` : "Portalcraft"
+|`clan`|`number`|  `0`: "Neutral"<br>`1`: "Forestcraft"<br>`2` : "Swordcraft"<br>`3` : "Runecraft"<br>`4` : "Dragoncraft"<br>`5` : "Shadowcraft"<br>`6` : "Bloodcraft"<br>`7` : "Havencraft"<br>`8` : "Portalcraft"
 |`char_type`|`number`|`1`: "Follower"<br>`2`: "Amulet"<br>`3`: "Amulet (Countdown)"<br>`4`: "Spell"<br>
 |`tribe_name`|`number`|The code of the tribe name, please refer to the table below<br>`0` = "-"<br>`1` = "Academic"|
 |`cost`|`number`|The cost of the card|
