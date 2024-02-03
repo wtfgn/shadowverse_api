@@ -2,9 +2,22 @@ import type { LanguageCode } from "../../types";
 
 export interface Query {
   lang?: LanguageCode;
+  card_name?: string;
   clan?: string | string[];
   char_type?: string | string[];
   tribe_name?: string | string[];
+  cost?: string | string[];
+  atk?: string | string[];
+  life?: string | string[];
+  rarity?: string | string[];
+  get_red_ether?: string | string[];
+  use_red_ether?: string | string[];
+  format_type?: string | string[];
+  restricted_count?: string | string[];
+  restricted_count_co_main?: string | string[];
+  restricted_count_co_sub?: string | string[];
+  resurgent_card?: string | string[];
+  card_set_id?: string | string[];
   [key: string]: string | string[] | undefined;
 }
 
@@ -30,6 +43,10 @@ const isNumberInRange = (min: number, max: number) => (code: string) => {
 // Utility function to check if the code is a number
 const isNumericCode = (code: string | string[] | undefined): boolean => {
   return isValidCode(code, (code: string) => !isNaN(Number(code)))
+}
+
+export const isValidCardName = (cardName: string | undefined): boolean => {
+  return typeof cardName === "string" && cardName.length > 0;
 }
 
 export const isValidCardSetCode = isNumericCode;
@@ -90,6 +107,9 @@ export const queryValidator = (query: Query): void => {
   }
 
   // Validate other query parameters
+  if (query.card_name && !isValidCardName(query.card_name)) {
+    throw new Error("Invalid card name");
+  }
   if (query.card_set_id && !isValidCardSetCode(query.card_set_id)) {
     throw new Error("Invalid card_set_id");
   }

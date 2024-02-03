@@ -2,6 +2,7 @@ import type { LanguageCode, RawCard } from '../types';
 import { myCache } from '../cache';
 import type { Query } from '../utils/validators/query_validator';
 import {
+  isValidCardName,
   isValidCardSetCode,
   isValidClanCode,
   isValidCharTypeCode,
@@ -119,6 +120,7 @@ export class Card {
     let filteredCards = cards;
     const {
       lang: languageCode,
+      card_name: cardName,
       card_set_id: cardSetId,
       clan: clanCode,
       char_type: charTypeCode,
@@ -138,7 +140,9 @@ export class Card {
 
     // Discard cards with no name
     filteredCards = filteredCards.filter(card => card.card_name !== null);
-
+    if (cardName !== undefined && isValidCardName(cardName)) {
+      filteredCards = filteredCards.filter(card => card.card_name!.toLowerCase().includes(cardName.toLowerCase()));
+    }
     if (cardSetId !== undefined && isValidCardSetCode(cardSetId)) {
       filteredCards = Card.selectByProperty(filteredCards, cardSetId, "card_set_id");
     }

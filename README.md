@@ -23,7 +23,8 @@ This API is built based on the official API provided by Shadowverse with additio
 
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
-| `lang` | `string` |`en` = "English",<br>`ja` = "Japanese",<br> `zh-tw` = "Tranditional Chinese"|
+| `lang` | `string` |`en` = "English",<br>`ja` = "Japanese",<br> `zh-tw` = "Tranditional Chinese"<br>If not specified, the default language is English|
+|`card_name`|`string`|The name of the card in the specified language, if language is not specified, the default language is English|
 | `card_set_id` |`number`| The extention that the card belongs to. <br> `10000` = "Basic" <br> `10001` = "Standard" <br> `10002` = "Darkness Evolved" <br> `10003` = "Rise of Bahamut" <br> `10004` = "Tempest of the Gods" <br>etc...
 |`clan`|`number`|  `0`: "Neutral"<br>`1`: "Forestcraft"<br>`2` : "Swordcraft"<br>`3` : "Runecraft"<br>`4` : "Dragoncraft"<br>`5` : "Shadowcraft"<br>`6` : "Bloodcraft"<br>`7` : "Havencraft"<br>`8` : "Portalcraft"
 |`char_type`|`number`|`1`: "Follower"<br>`2`: "Amulet"<br>`3`: "Amulet (Countdown)"<br>`4`: "Spell"<br>
