@@ -116,6 +116,11 @@ export class Card {
     return cards.filter(card => card.tribe_name === TribeName[languageCode][Number(tribeNameCode)]);
   }
 
+  static getCardNames(cards: Card[]): string[] {
+    // ignore names with null
+    return cards.filter(card => card.card_name !== null).map(card => card.card_name!);
+  }
+
   static filterByQuery(cards: Card[], query: Query): Card[] {
     let filteredCards = cards;
     const {
@@ -140,6 +145,8 @@ export class Card {
 
     // Discard cards with no name
     filteredCards = filteredCards.filter(card => card.card_name !== null);
+
+    // Filter by query
     if (cardName !== undefined && isValidCardName(cardName)) {
       filteredCards = filteredCards.filter(card => card.card_name!.toLowerCase().includes(cardName.toLowerCase()));
     }

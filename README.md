@@ -331,3 +331,13 @@ Example response:
   "resurgent_card": 0
 }
 ```
+#### Get card names
+
+```
+  GET /api/cards/names
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `lang`      | `string` | **Optional**. The language of the card names. Default is English. |
+

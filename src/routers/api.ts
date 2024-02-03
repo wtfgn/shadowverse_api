@@ -47,6 +47,20 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
   }
 });
 
+router.get("/cards/names", (req: Request, res: Response, next: NextFunction) => {
+  const { lang: languageCode = "en" } = req.query as Query;
+
+  const cachedCards: Card[] | undefined = myCache.get(`cards_${languageCode}`);
+  if (cachedCards) {
+    const cardNames = Card.getCardNames(cachedCards);
+    console.log(`[server]: Sending ${cardNames.length} card names from cache`);
+    res.send(cardNames);
+  }
+  else {
+    console.log(`[server]: Cards not found in cache`);
+    next(new CustomError("Cards not found", HttpStatusCode.NotFound));
+  }
+});
 
 router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
@@ -54,9 +68,10 @@ router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
 
   const cachedCards: Card[] | undefined = myCache.get(`cards_${languageCode}`);
   if (cachedCards) {
-    console.log(`[server]: Sending card from cache`);
+    console.log(`[server]: Fetching card ${id} from cache`);
     const card = Card.selectByCardId(cachedCards, id);
     if (card) {
+      console.log(`[server]: Sending card ${id} from cache`);
       res.send(card);
     } else {
       next(new CustomError("Card not found", HttpStatusCode.NotFound));
@@ -67,6 +82,9 @@ router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
     next(new CustomError("Cards not found", HttpStatusCode.NotFound));
   }
 });
+
+
+
 
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
