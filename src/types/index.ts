@@ -207,6 +207,6 @@ export type GetRedEther = number;
 export type UseRedEther = number;
 
 export const FormatType = {
-  0: "Rotation",
-  1: "Unlimited",
+  0: "Unlimited",
+  1: "Rotation",
 } as const;

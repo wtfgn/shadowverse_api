@@ -35,7 +35,7 @@ This API is built based on the official API provided by Shadowverse with additio
 |`rarity`|`number`|  `1`: "Bronze"<br>`2`: "Silver"<br>`3`: "Gold"<br>`4`: "Legendary"<br>|
 |`get_red_ether`|`number`|The red ether get when the card is decomposed|
 |`use_red_ether`|`number`|The red ether needed for crafting the card|
-|`format_type`|`numbet`|`0` = "Rotation"<br>`1` = "Unlimited"|
+|`format_type`|`numbet`|`0` = "Unlimited"<br>`1` = "Rotation"|
 |`restricted_count`|`number`|The number of that specific card can be put in a deck,<br> `0` means it is prohibited, `3` means no restrictions|
 |`restricted_count_co_main`|`number`|Same as above, but only applied in specific modes|
 |`restricted_count_co_sub`|`number`|Same as above, but only applied in specific modes|
