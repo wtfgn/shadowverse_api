@@ -15,7 +15,7 @@ app.use(express.json());
 app.use("/api", api);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  res.send("Shadowverse API");
 });
 
 app.listen(port, () => {
@@ -23,7 +23,6 @@ app.listen(port, () => {
   useInit()
     .then(() => {
       console.log(`[server]: Initialization complete`);
-      console.log(`[server]: Server is running at http://localhost:${port}`);
       console.log(`[server]: Cache stats: ${JSON.stringify(myCache.getStats())}`);
     })
     .catch((error) => {

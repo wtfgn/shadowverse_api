@@ -52,6 +52,12 @@ export interface RawCard {
 }
 
 export type LanguageCode = "en" | "ja" | "zh-tw";
+export type CacheKey = `cards_${LanguageCode}`;
+export const CacheKeyLanguageCodeMap: { [key in CacheKey]: LanguageCode } = {
+  "cards_en": "en",
+  "cards_ja": "ja",
+  "cards_zh-tw": "zh-tw",
+} as const;
 
 export const Clan = {
   0: "Neutral",

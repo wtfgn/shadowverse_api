@@ -83,9 +83,6 @@ router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-
-
-
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.use((err: CustomError, req: Request, res: Response, _next: NextFunction) => {
