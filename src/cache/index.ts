@@ -6,7 +6,7 @@ import { CacheKeyLanguageCodeMap } from "../types";
 let isUpdatingCache = false;
 
 export const myCache = new NodeCache({
-  stdTTL: 10, // 1 hour
+  stdTTL: 3600, // 1 hour
   deleteOnExpire: false,
 });
 
