@@ -86,7 +86,7 @@ export class Card {
     const cachedCardsJa: Card[] | undefined = myCache.get(`cards_ja`);
     return rawCards.map(rawCard => {
       if (!rawCard.cv || rawCard.cv === "") {
-        const cachedCard = Card.selectByCardId(cachedCardsJa!, rawCard.card_id);
+        const cachedCard = Card.selectByCardId(cachedCardsJa, rawCard.card_id);
         if (cachedCard) {
           rawCard.cv = cachedCard.cv;
         }
@@ -96,7 +96,10 @@ export class Card {
     });
   }
 
-  static selectByCardId(cards: Card[], cardId: string | number): Card | undefined {
+  static selectByCardId(cards: Card[] | undefined, cardId: string | number): Card | undefined {
+    if (!cards) {
+      return undefined;
+    }
     return cards.find(card => card.card_id === Number(cardId));
   }
 
