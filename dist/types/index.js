@@ -152,3 +152,4 @@ exports.FormatType = {
     0: "Unlimited",
     1: "Rotation",
 };
+//# sourceMappingURL=index.js.map

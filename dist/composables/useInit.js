@@ -15,3 +15,4 @@ const useInit = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, cache_1.updateCache)();
 });
 exports.useInit = useInit;
+//# sourceMappingURL=useInit.js.map

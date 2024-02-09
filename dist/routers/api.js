@@ -88,3 +88,4 @@ exports.router.use((err, req, res, _next) => {
 exports.router.use((req, res) => {
     res.status(404).send("Not found");
 });
+//# sourceMappingURL=api.js.map

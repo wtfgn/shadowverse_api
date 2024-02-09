@@ -52,3 +52,4 @@ exports.myCache.on("expired", (key) => {
         console.log(error);
     });
 });
+//# sourceMappingURL=index.js.map

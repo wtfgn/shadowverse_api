@@ -35,3 +35,4 @@ const useFetchCards = (lang = "en") => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.useFetchCards = useFetchCards;
+//# sourceMappingURL=useFetchCards.js.map
