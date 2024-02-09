@@ -41,7 +41,7 @@ exports.router.get("/cards", validateQuery, (req, res, next) => {
         res.send(filteredCards);
     }
     else {
-        console.log(`[server]: Cards not found in cache, fetching from API...`);
+        console.log(`[server]: Cards not found in cache`);
         (0, useFetchCards_1.useFetchCards)(languageCode)
             .then((cards) => {
             console.log(`[server]: Sending ${cards.length} cards from API`);

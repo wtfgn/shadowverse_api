@@ -43,7 +43,7 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
     res.send(filteredCards);
   }
   else {
-    console.log(`[server]: Cards not found in cache, fetching from API...`);
+    console.log(`[server]: Cards not found in cache`);
     useFetchCards(languageCode)
       .then((cards) => {
         console.log(`[server]: Sending ${cards.length} cards from API`);

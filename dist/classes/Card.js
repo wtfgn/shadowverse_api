@@ -48,6 +48,9 @@ class Card {
         });
     }
     static selectByCardId(cards, cardId) {
+        if (!cards) {
+            return undefined;
+        }
         return cards.find(card => card.card_id === Number(cardId));
     }
     static selectByProperty(cards, property, propertyName) {
