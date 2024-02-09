@@ -6,6 +6,7 @@ import { myCache } from "../cache";
 import { queryValidator } from "../utils/validators/query_validator";
 import type { Query } from "../utils/validators/query_validator";
 import { HttpStatusCode } from "axios";
+import { useFetchCards } from "../composables/useFetchCards";
 
 dotenv.config();
 
@@ -42,9 +43,18 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
     res.send(filteredCards);
   }
   else {
-    console.log(`[server]: Cards not found in cache`);
-    next(new CustomError("Cards not found", HttpStatusCode.NotFound));
-  }
+    console.log(`[server]: Cards not found in cache, fetching from API...`);
+    useFetchCards(languageCode)
+      .then((cards) => {
+        console.log(`[server]: Sending ${cards.length} cards from API`);
+        myCache.set(`cards_${languageCode}`, cards);
+        res.send(cards);
+      })
+      .catch((error) => {
+        console.error(`[server]: Error fetching cards: ${(error as Error).message}`);
+        next(new CustomError((error as Error).message, HttpStatusCode.InternalServerError));
+      });
+    }
 });
 
 router.get("/cards/names", (req: Request, res: Response, next: NextFunction) => {

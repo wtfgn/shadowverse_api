@@ -11,6 +11,7 @@ const CustomError_1 = require("../classes/CustomError");
 const cache_1 = require("../cache");
 const query_validator_1 = require("../utils/validators/query_validator");
 const axios_1 = require("axios");
+const useFetchCards_1 = require("../composables/useFetchCards");
 dotenv_1.default.config();
 exports.router = express_1.default.Router();
 const validateQuery = (req, res, next) => {
@@ -40,8 +41,17 @@ exports.router.get("/cards", validateQuery, (req, res, next) => {
         res.send(filteredCards);
     }
     else {
-        console.log(`[server]: Cards not found in cache`);
-        next(new CustomError_1.CustomError("Cards not found", axios_1.HttpStatusCode.NotFound));
+        console.log(`[server]: Cards not found in cache, fetching from API...`);
+        (0, useFetchCards_1.useFetchCards)(languageCode)
+            .then((cards) => {
+            console.log(`[server]: Sending ${cards.length} cards from API`);
+            cache_1.myCache.set(`cards_${languageCode}`, cards);
+            res.send(cards);
+        })
+            .catch((error) => {
+            console.error(`[server]: Error fetching cards: ${error.message}`);
+            next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.InternalServerError));
+        });
     }
 });
 exports.router.get("/cards/names", (req, res, next) => {
