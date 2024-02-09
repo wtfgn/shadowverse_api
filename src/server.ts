@@ -13,8 +13,8 @@ const port = process.env.SERVER_PORT || 3000;
 
 app.use(cors()); // TODO: remove this in production
 app.use(express.json());
-app.use("/api", api);
 app.use(compression());
+app.use("/api", api);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Shadowverse API");

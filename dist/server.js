@@ -15,8 +15,8 @@ const app = (0, express_1.default)();
 const port = process.env.SERVER_PORT || 3000;
 app.use((0, cors_1.default)()); // TODO: remove this in production
 app.use(express_1.default.json());
-app.use("/api", api_1.router);
 app.use((0, compression_1.default)());
+app.use("/api", api_1.router);
 app.get("/", (req, res) => {
     res.send("Shadowverse API");
 });
