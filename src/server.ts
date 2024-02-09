@@ -7,7 +7,7 @@ import { router as api } from "./routers/api";
 
 dotenv.config();
 
-export const app: Express = express();
+const app: Express = express();
 const port = process.env.SERVER_PORT || 3000;
 
 app.use(cors()); // TODO: remove this in production
@@ -31,4 +31,5 @@ app.listen(port, () => {
   }
 );
 
+module.exports = app;
 
