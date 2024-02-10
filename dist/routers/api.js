@@ -12,6 +12,7 @@ const cache_1 = require("../cache");
 const query_validator_1 = require("../utils/validators/query_validator");
 const axios_1 = require("axios");
 const useFetchCards_1 = require("../composables/useFetchCards");
+const Deck_1 = require("../classes/Deck");
 dotenv_1.default.config();
 exports.router = express_1.default.Router();
 const validateQuery = (req, res, next) => {
@@ -87,6 +88,20 @@ exports.router.get("/cards/:id", (req, res, next) => {
         next(new CustomError_1.CustomError("Cards not found", axios_1.HttpStatusCode.NotFound));
     }
 });
+exports.router.get("/deckhash/:deckHash", (req, res, next) => {
+    const { deckHash } = req.params;
+    const { lang: languageCode = "en" } = req.query;
+    try {
+        const deck = new Deck_1.Deck(deckHash, languageCode);
+        res.send({
+            craftId: deck.getCraftId(),
+            cards: deck.getCardsInDeck()
+        });
+    }
+    catch (error) {
+        next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.BadRequest));
+    }
+});
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 exports.router.use((err, req, res, _next) => {
@@ -96,6 +111,6 @@ exports.router.use((err, req, res, _next) => {
 });
 // Last middleware called, if all others invoke next() and do not respond
 exports.router.use((req, res) => {
-    res.status(404).send("Not found");
+    res.status(404).send("Not founda");
 });
 //# sourceMappingURL=api.js.map

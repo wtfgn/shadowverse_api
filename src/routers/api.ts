@@ -7,6 +7,7 @@ import { queryValidator } from "../utils/validators/query_validator";
 import type { Query } from "../utils/validators/query_validator";
 import { HttpStatusCode } from "axios";
 import { useFetchCards } from "../composables/useFetchCards";
+import { Deck } from "../classes/Deck";
 
 dotenv.config();
 
@@ -93,6 +94,22 @@ router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+router.get("/deckhash/:deckHash", (req: Request, res: Response, next: NextFunction) => {
+  const { deckHash } = req.params;
+  const { lang: languageCode = "en" } = req.query as Query;
+  try {
+    const deck = new Deck(deckHash, languageCode);
+    res.send({
+      craftId: deck.getCraftId(),
+      cards: deck.getCardsInDeck()
+    });
+  }
+  catch (error) {
+    next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
+  }
+});
+
+
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 router.use((err: CustomError, req: Request, res: Response, _next: NextFunction) => {
@@ -103,7 +120,7 @@ router.use((err: CustomError, req: Request, res: Response, _next: NextFunction) 
 
 // Last middleware called, if all others invoke next() and do not respond
 router.use((req: Request, res: Response) => {
-  res.status(404).send("Not found");
+  res.status(404).send("Not founda");
 });
 
 
