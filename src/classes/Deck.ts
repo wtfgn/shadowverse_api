@@ -1,6 +1,7 @@
 import { Card } from './Card';
 import { myCache } from '../cache';
 import { LanguageCode } from 'index';
+import { useFetchCards } from '../composables/useFetchCards';
 
 export type CardInDeck = Card & { count: number }
 export type SimpleDeck = { [card_id: string]: number }
@@ -49,18 +50,35 @@ export class Deck {
   }
 
   private transformDeck(simpleDeck: SimpleDeck, languageCode: LanguageCode): CardInDeck[] {
-    return Object.entries(simpleDeck).map(([card_id, count]) => {
-      const card = Card.selectByCardId(myCache.get(`cards_${languageCode}`), card_id);
-      if (!card) throw new Error(`Card not found: ${card_id} in cache [cards_${languageCode}] when transforming deck`);
+    let cachedCards: Card[] | undefined = myCache.get(`cards_${languageCode}`);
+    if (!cachedCards) {
+      console.log(`[server]: Cards not found in cache when transforming deck`);
+      useFetchCards(languageCode)
+        .then((cards) => {
+          console.log(`[server]: Sending ${cards.length} cards from API`);
+          myCache.set(`cards_${languageCode}`, cards);
+          cachedCards = cards;
+        })
+        .catch((error) => {
+          console.error(`[server]: Error fetching cards: ${(error as Error).message}`);
+          throw error;
+        });
+    }
+
+    return Object.entries(simpleDeck).map(([cardId, count]) => {
+      const card = Card.selectByCardId(cachedCards, cardId);
+      if (!card)
+        throw new Error(`Card not found: ${cardId} when transforming deck`);
       return { ...card, count };
-    })
+    });
   }
 
-  getCraftId() {
-    return this.craftId;
-  }
 
-  getCardsInDeck() {
-    return this.cards;
+    getCraftId() {
+      return this.craftId;
+    }
+
+    getCardsInDeck() {
+      return this.cards;
+    }
   }
-}

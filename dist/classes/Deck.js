@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Deck = void 0;
 const Card_1 = require("./Card");
 const cache_1 = require("../cache");
+const useFetchCards_1 = require("../composables/useFetchCards");
 class Deck {
     constructor(deckHash, languageCode) {
         this.craftId = -1;
@@ -33,10 +34,24 @@ class Deck {
         return { craftId, newDeck, count };
     }
     transformDeck(simpleDeck, languageCode) {
-        return Object.entries(simpleDeck).map(([card_id, count]) => {
-            const card = Card_1.Card.selectByCardId(cache_1.myCache.get(`cards_${languageCode}`), card_id);
+        let cachedCards = cache_1.myCache.get(`cards_${languageCode}`);
+        if (!cachedCards) {
+            console.log(`[server]: Cards not found in cache when transforming deck`);
+            (0, useFetchCards_1.useFetchCards)(languageCode)
+                .then((cards) => {
+                console.log(`[server]: Sending ${cards.length} cards from API`);
+                cache_1.myCache.set(`cards_${languageCode}`, cards);
+                cachedCards = cards;
+            })
+                .catch((error) => {
+                console.error(`[server]: Error fetching cards: ${error.message}`);
+                throw error;
+            });
+        }
+        return Object.entries(simpleDeck).map(([cardId, count]) => {
+            const card = Card_1.Card.selectByCardId(cachedCards, cardId);
             if (!card)
-                throw new Error(`Card not found: ${card_id} in cache [cards_${languageCode}] when transforming deck`);
+                throw new Error(`Card not found: ${cardId} when transforming deck`);
             return Object.assign(Object.assign({}, card), { count });
         });
     }
