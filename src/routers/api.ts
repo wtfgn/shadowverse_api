@@ -98,11 +98,16 @@ router.get("/deckhash/:deckHash", (req: Request, res: Response, next: NextFuncti
   const { deckHash } = req.params;
   const { lang: languageCode = "en" } = req.query as Query;
   try {
-    const deck = new Deck(deckHash, languageCode);
-    res.send({
-      craftId: deck.getCraftId(),
-      cards: deck.getCardsInDeck()
-    });
+    Deck.create(deckHash, languageCode)
+      .then((deck) => {
+        res.send({
+          craftId: deck.getCraftId(),
+          cards: deck.getCardsInDeck()
+        });
+      })
+      .catch((error) => {
+        next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
+      });
   }
   catch (error) {
     next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));

@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
-const useInit_1 = require("./composables/useInit");
-const cache_1 = require("./cache");
 const api_1 = require("./routers/api");
 const compression_1 = __importDefault(require("compression"));
 dotenv_1.default.config();
@@ -22,14 +20,6 @@ app.get("/", (req, res) => {
 });
 app.listen(port, () => {
     console.log(`[server]: Initializing...`);
-    (0, useInit_1.useInit)()
-        .then(() => {
-        console.log(`[server]: Initialization complete`);
-        console.log(`[server]: Cache stats: ${JSON.stringify(cache_1.myCache.getStats())}`);
-    })
-        .catch((error) => {
-        console.log(error);
-    });
 });
 module.exports = app;
 //# sourceMappingURL=server.js.map

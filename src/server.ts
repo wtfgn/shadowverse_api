@@ -22,14 +22,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log(`[server]: Initializing...`);
-  useInit()
-    .then(() => {
-      console.log(`[server]: Initialization complete`);
-      console.log(`[server]: Cache stats: ${JSON.stringify(myCache.getStats())}`);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  
   }
 );
 

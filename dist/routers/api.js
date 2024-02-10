@@ -92,10 +92,15 @@ exports.router.get("/deckhash/:deckHash", (req, res, next) => {
     const { deckHash } = req.params;
     const { lang: languageCode = "en" } = req.query;
     try {
-        const deck = new Deck_1.Deck(deckHash, languageCode);
-        res.send({
-            craftId: deck.getCraftId(),
-            cards: deck.getCardsInDeck()
+        Deck_1.Deck.create(deckHash, languageCode)
+            .then((deck) => {
+            res.send({
+                craftId: deck.getCraftId(),
+                cards: deck.getCardsInDeck()
+            });
+        })
+            .catch((error) => {
+            next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.BadRequest));
         });
     }
     catch (error) {

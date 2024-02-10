@@ -12,13 +12,19 @@ export class Deck {
 
   private craftId: number = -1;
   private cards: CardInDeck[] = [];
+  private languageCode: LanguageCode = "en";
 
-  constructor(deckHash: string, languageCode: LanguageCode) {
-    const { craftId, newDeck } = Deck.parseDeckHash(deckHash);
+  private constructor(craftId: number, cards: CardInDeck[], languageCode: LanguageCode) {
     this.craftId = craftId;
-    this.cards = this.transformDeck(newDeck, languageCode);
+    this.cards = cards;
+    this.languageCode = languageCode;
   }
 
+  static async create(deckHash: string, languageCode: LanguageCode): Promise<Deck> {
+    const { craftId, newDeck } = Deck.parseDeckHash(deckHash);
+    const cards = await Deck.transformDeck(newDeck, languageCode);
+    return new Deck(craftId, cards, languageCode);
+  }
 
   static parseDeckHash(deckHash: string) {
     if (!/\d\.\d\./.test(deckHash.substring(0, 4)))
@@ -49,20 +55,18 @@ export class Deck {
     return { craftId, newDeck, count };
   }
 
-  private transformDeck(simpleDeck: SimpleDeck, languageCode: LanguageCode): CardInDeck[] {
+  private static async transformDeck(simpleDeck: SimpleDeck, languageCode: LanguageCode) {
     let cachedCards: Card[] | undefined = myCache.get(`cards_${languageCode}`);
     if (!cachedCards) {
       console.log(`[server]: Cards not found in cache when transforming deck`);
-      useFetchCards(languageCode)
-        .then((cards) => {
-          console.log(`[server]: Sending ${cards.length} cards from API`);
-          myCache.set(`cards_${languageCode}`, cards);
-          cachedCards = cards;
-        })
-        .catch((error) => {
-          console.error(`[server]: Error fetching cards: ${(error as Error).message}`);
-          throw error;
-        });
+      try {
+        cachedCards = await useFetchCards(languageCode);
+        myCache.set(`cards_${languageCode}`, cachedCards);
+        console.log(`[server]: ${cachedCards.length} cards fetched and cached`);
+      } catch (error) {
+        console.error(`[server]: Error fetching cards: ${(error as Error).message}`);
+        throw error;
+      }
     }
 
     return Object.entries(simpleDeck).map(([cardId, count]) => {
@@ -73,12 +77,11 @@ export class Deck {
     });
   }
 
+  getCraftId() {
+    return this.craftId;
+  }
 
-    getCraftId() {
-      return this.craftId;
-    }
-
-    getCardsInDeck() {
-      return this.cards;
-    }
+  getCardsInDeck() {
+    return this.cards;
+  }
   }
