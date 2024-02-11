@@ -79,6 +79,9 @@ class Deck {
     getCardsInDeck() {
         return this.cards;
     }
+    getDeckSize() {
+        return this.cards.reduce((acc, card) => acc + card.count, 0);
+    }
 }
 exports.Deck = Deck;
 Deck.RADIX = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';

@@ -55,7 +55,7 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
         console.error(`[server]: Error fetching cards: ${(error as Error).message}`);
         next(new CustomError((error as Error).message, HttpStatusCode.InternalServerError));
       });
-    }
+  }
 });
 
 router.get("/cards/names", (req: Request, res: Response, next: NextFunction) => {
@@ -97,22 +97,20 @@ router.get("/cards/:id", (req: Request, res: Response, next: NextFunction) => {
 router.get("/deckhash/:deckHash", (req: Request, res: Response, next: NextFunction) => {
   const { deckHash } = req.params;
   const { lang: languageCode = "en" } = req.query as Query;
-  try {
-    Deck.create(deckHash, languageCode)
-      .then((deck) => {
-        res.send({
-          craftId: deck.getCraftId(),
-          cards: deck.getCardsInDeck()
-        });
-      })
-      .catch((error) => {
-        next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
+
+  Deck.create(deckHash, languageCode)
+    .then((deck) => {
+      res.send({
+        craftId: deck.getCraftId(),
+        cards: deck.getCardsInDeck(),
+        deckSize: deck.getDeckSize(),
       });
-  }
-  catch (error) {
-    next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
-  }
-});
+    })
+    .catch((error) => {
+      next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
+    });
+}
+);
 
 
 // Called if and only if a middleware calls next(error)

@@ -84,4 +84,8 @@ export class Deck {
   getCardsInDeck() {
     return this.cards;
   }
+
+  getDeckSize() {
+    return this.cards.reduce((acc, card) => acc + card.count, 0);
   }
+}

@@ -91,21 +91,17 @@ exports.router.get("/cards/:id", (req, res, next) => {
 exports.router.get("/deckhash/:deckHash", (req, res, next) => {
     const { deckHash } = req.params;
     const { lang: languageCode = "en" } = req.query;
-    try {
-        Deck_1.Deck.create(deckHash, languageCode)
-            .then((deck) => {
-            res.send({
-                craftId: deck.getCraftId(),
-                cards: deck.getCardsInDeck()
-            });
-        })
-            .catch((error) => {
-            next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.BadRequest));
+    Deck_1.Deck.create(deckHash, languageCode)
+        .then((deck) => {
+        res.send({
+            craftId: deck.getCraftId(),
+            cards: deck.getCardsInDeck(),
+            deckSize: deck.getDeckSize(),
         });
-    }
-    catch (error) {
+    })
+        .catch((error) => {
         next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.BadRequest));
-    }
+    });
 });
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
