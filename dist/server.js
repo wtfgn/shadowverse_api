@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.send("Shadowverse API");
 });
 app.listen(port, () => {
-    console.log(`[server]: Initializing...`);
+    console.log(`[server]: Server is running at https://localhost:${port}`);
 });
 module.exports = app;
 //# sourceMappingURL=server.js.map

@@ -1,8 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import { useInit } from "./composables/useInit";
-import { myCache } from "./cache";
 import { router as api } from "./routers/api";
 import compression from "compression";
 
@@ -21,10 +19,8 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`[server]: Initializing...`);
-  
-  }
-);
+  console.log(`[server]: Server is running at https://localhost:${port}`);
+});
 
 module.exports = app;
 

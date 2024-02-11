@@ -8,6 +8,7 @@ import type { Query } from "../utils/validators/query_validator";
 import { HttpStatusCode } from "axios";
 import { useFetchCards } from "../composables/useFetchCards";
 import { Deck } from "../classes/Deck";
+import axios from "axios";
 
 dotenv.config();
 
@@ -109,9 +110,41 @@ router.get("/deckhash/:deckHash", (req: Request, res: Response, next: NextFuncti
     .catch((error) => {
       next(new CustomError((error as Error).message, HttpStatusCode.BadRequest));
     });
-}
-);
+});
 
+router.get("/deckcode/publish", (req: Request, res: Response, next: NextFunction) => {
+  const { lang: languageCode = "en" } = req.query as Query;
+  const query = req.query;
+  const deckHash = query.deckHash as string;
+  const publishDeckUrl = 'https://shadowverse-portal.com/api/v1/deck_code/publish?format=json';
+
+  const formData = new FormData();
+  let deckCode = '';
+  // Add hash to form data
+  formData.append('hash', deckHash);
+  formData.append('csrf_token', '');
+  axios.post(publishDeckUrl, formData, {
+    params: {
+      lang: languageCode,
+    },
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then((officialApiRes) => {
+      const { data: customData } = officialApiRes.data as { data: { deck_code: string } };
+      deckCode = customData.deck_code;
+      if (deckCode === '' || deckCode === undefined) {
+        throw new Error('Deck code not found');
+      }
+      res.send({
+        deckCode,
+      });
+    })
+    .catch((err) => {
+      next(new CustomError((err as Error).message, HttpStatusCode.BadRequest));
+    });
+});
 
 // Called if and only if a middleware calls next(error)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

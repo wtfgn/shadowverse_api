@@ -13,6 +13,7 @@ const query_validator_1 = require("../utils/validators/query_validator");
 const axios_1 = require("axios");
 const useFetchCards_1 = require("../composables/useFetchCards");
 const Deck_1 = require("../classes/Deck");
+const axios_2 = __importDefault(require("axios"));
 dotenv_1.default.config();
 exports.router = express_1.default.Router();
 const validateQuery = (req, res, next) => {
@@ -101,6 +102,38 @@ exports.router.get("/deckhash/:deckHash", (req, res, next) => {
     })
         .catch((error) => {
         next(new CustomError_1.CustomError(error.message, axios_1.HttpStatusCode.BadRequest));
+    });
+});
+exports.router.get("/deckcode/publish", (req, res, next) => {
+    const { lang: languageCode = "en" } = req.query;
+    const query = req.query;
+    const deckHash = query.deckHash;
+    const publishDeckUrl = 'https://shadowverse-portal.com/api/v1/deck_code/publish?format=json';
+    const formData = new FormData();
+    let deckCode = '';
+    // Add hash to form data
+    formData.append('hash', deckHash);
+    formData.append('csrf_token', '');
+    axios_2.default.post(publishDeckUrl, formData, {
+        params: {
+            lang: languageCode,
+        },
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    })
+        .then((officialApiRes) => {
+        const { data: customData } = officialApiRes.data;
+        deckCode = customData.deck_code;
+        if (deckCode === '' || deckCode === undefined) {
+            throw new Error('Deck code not found');
+        }
+        res.send({
+            deckCode,
+        });
+    })
+        .catch((err) => {
+        next(new CustomError_1.CustomError(err.message, axios_1.HttpStatusCode.BadRequest));
     });
 });
 // Called if and only if a middleware calls next(error)
