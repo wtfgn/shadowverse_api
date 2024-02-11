@@ -102,7 +102,7 @@ router.get("/deckhash/:deckHash", (req: Request, res: Response, next: NextFuncti
     .then((deck) => {
       res.send({
         craftId: deck.getCraftId(),
-        cards: deck.getCardsInDeck(),
+        deck: deck.getCardsInDeck(),
         deckSize: deck.getDeckSize(),
       });
     })

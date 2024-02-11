@@ -95,7 +95,7 @@ exports.router.get("/deckhash/:deckHash", (req, res, next) => {
         .then((deck) => {
         res.send({
             craftId: deck.getCraftId(),
-            cards: deck.getCardsInDeck(),
+            deck: deck.getCardsInDeck(),
             deckSize: deck.getDeckSize(),
         });
     })
