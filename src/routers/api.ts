@@ -50,7 +50,7 @@ router.get("/cards", validateQuery, (req: Request, res: Response, next: NextFunc
       .then((cards) => {
         console.log(`[server]: Sending ${cards.length} cards from API`);
         myCache.set(`cards_${languageCode}`, cards);
-        res.send(cards);
+        res.send(Card.filterByQuery(cards, req.query as Query));
       })
       .catch((error) => {
         console.error(`[server]: Error fetching cards: ${(error as Error).message}`);

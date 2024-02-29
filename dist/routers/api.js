@@ -48,7 +48,7 @@ exports.router.get("/cards", validateQuery, (req, res, next) => {
             .then((cards) => {
             console.log(`[server]: Sending ${cards.length} cards from API`);
             cache_1.myCache.set(`cards_${languageCode}`, cards);
-            res.send(cards);
+            res.send(Card_1.Card.filterByQuery(cards, req.query));
         })
             .catch((error) => {
             console.error(`[server]: Error fetching cards: ${error.message}`);
